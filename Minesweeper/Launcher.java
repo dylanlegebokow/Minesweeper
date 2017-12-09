@@ -1,10 +1,10 @@
+// This class is responsible for setting up a minesweeper game and interacting with a user
+
 import java.util.Scanner;
 import java.util.Arrays;
 
 public class Launcher {
   
-  // Board must have height and width both larger than 1
-  // Number of mines must be less than or equal to HxW
   public static void main(String[] args) {
     
     Logic logic = new Logic();
@@ -20,8 +20,9 @@ public class Launcher {
     int width;
     int mines;
     
-    System.out.println("-----------------------------------------------------------------------------------------\n");
     
+    // Displays game title when running program
+    System.out.println("-----------------------------------------------------------------------------------------\n");
     System.out.println("\t   __  ________  ___________      _____________  _______ ");
     System.out.println("\t  /  |/  /  _/ |/ / __/ __/ | /| / / __/ __/ _ \\/ __/ _ \\");
     System.out.println("\t / /|_/ // //    / _/_\\ \\ | |/ |/ / _// _// ___/ _// , _/");
@@ -30,6 +31,7 @@ public class Launcher {
     System.out.println("To play, insert the coordinates of the location you want to check in the format of:    ROW, COLUMN");
     System.out.println("Please select the board height, board width, and how many mines.\n");
     
+    // Prompts user for board height
     System.out.print("HEIGHT: ");
     height = scan.nextInt();
     while ((height > 18) || (height < 2)) {
@@ -38,6 +40,7 @@ public class Launcher {
       height = scan.nextInt();
     }
     
+    // Prompts user for board width
     System.out.print("WIDTH:  ");
     width = scan.nextInt();
     while ((width > 15) || (width < 2)) {
@@ -46,6 +49,7 @@ public class Launcher {
       width = scan.nextInt();
     }
     
+    // Prompts user for number of mines on board
     System.out.print("MINES:  ");
     mines = scan.nextInt();
     while ((mines > (height * width - 1)) || (mines < 1)) {
@@ -55,11 +59,12 @@ public class Launcher {
     }
     System.out.println();
     
+    // Creates a new minesweeper board with user imputs as parameters
     Board board = new Board(height, width, mines);
     int[][][] thisBoard = board.getBoard();
-    
     board.printBoard(thisBoard);
     
+    // Game logic: runs until user hits a mine or avoids all mines and wins the game
     while (count < (height * width - mines)) { 
       count = 0;
       System.out.println("-----------------------------------------------------------------------------------------\n");
@@ -70,6 +75,7 @@ public class Launcher {
       point.setX(numbers[0] - 1);
       point.setY(numbers[1] - 1);
       
+      // Checks if point is within gameboard
       while((point.getX() >= height) || (point.getX() < 0) || (point.getY() >= width) || (point.getY() < 0)) {
         System.out.println("Point is out of bounds. Please try another point.");
         System.out.print("Check square: ");
@@ -80,6 +86,7 @@ public class Launcher {
         point.setY(numbers[1] - 1);
       }
             
+      // Checks if point has already been checked
       while (logic.pointAlreadyChecked(thisBoard, point) == true) {
         System.out.println("Point already checked. Please try another point.");
         System.out.print("Check square: ");
@@ -90,10 +97,11 @@ public class Launcher {
         point.setY(numbers[1] - 1);
       }
           
-      
+      // Updates the gameboard
       System.out.println();
       thisBoard = logic.updateBoard(thisBoard, point, height-1, width-1);
       
+      // Counts how many squares have been listed as "checked"
       for (int i=0; i<height*width; i++) {
         if (thisBoard[i / width][i % width][1] == 1) {
           count += 1;
