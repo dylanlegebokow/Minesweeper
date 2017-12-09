@@ -1,6 +1,6 @@
 # Minesweeper
 
-This is a minesweeper game I created using Java. It can be run in either a Java IDE or using the command line. The program prompts a user for the board size as well as the number of mines. The software will then automatically create the board and add the proper number of mines in random locations. 
+This is a minesweeper game I created using Java. It can be run in either a Java IDE or using the command line. The program prompts a user for the board size as well as the number of mines. The software will then automatically create the board and add the proper number of mines in random locations. One of the only difference of the game I created vs the original is that the first square you pick is not guarenteed to be safe.
 
 ### Prerequisits
 - Java 8
