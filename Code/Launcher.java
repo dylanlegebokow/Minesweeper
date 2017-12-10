@@ -1,5 +1,5 @@
 // This class is responsible for setting up a minesweeper game and interacting with a user
-
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Arrays;
 
@@ -17,37 +17,67 @@ public class Launcher {
     int[] square = new int[2];
     int[] numbers = new int[2];
     
-    int height;
-    int width;
-    int mines;
+    int height = 0;
+    int width = 0;
+    int mines = 0;
    
     display.showTitle();
     
     // Prompts user for board height
     System.out.print("HEIGHT: ");
-    height = scan.nextInt();
+    try {
+        height = scan.nextInt();
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input: value is not an integer. Please restart and try again.\n");
+        System.exit(0);
+      }
     while ((height > 18) || (height < 2)) {
       System.out.println("Height out of range. Please choose a number between 2 - 18.");
       System.out.print("HEIGHT: ");
-      height = scan.nextInt();
+      try {
+        height = scan.nextInt();
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input: value is not an integer. Please restart and try again.\n");
+        System.exit(0);
+      }
     }
     
     // Prompts user for board width
     System.out.print("WIDTH:  ");
-    width = scan.nextInt();
+    try {
+        width = scan.nextInt();
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input: value is not an integer. Please restart and try again.\n");
+        System.exit(0);
+      }
     while ((width > 15) || (width < 2)) {
       System.out.println("Width out of range. Please choose a number between 2 - 15.");
       System.out.print("WIDTH:  ");
-      width = scan.nextInt();
+      try {
+        width = scan.nextInt();
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input: value is not an integer. Please restart and try again.\n");
+        System.exit(0);
+      }
     }
     
     // Prompts user for number of mines on board
     System.out.print("MINES:  ");
-    mines = scan.nextInt();
+    try {
+        mines = scan.nextInt();
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input: value is not an integer. Please restart and try again.\n");
+        System.exit(0);
+      }
     while ((mines > (height * width - 1)) || (mines < 1)) {
-      System.out.println("Mines value out of range. Please choose a number between 1 - (HEIGHT x WIDTH).");
+      System.out.println("Mines value out of range. Please choose a number between 1 - " + (height * width - 1) + ".");
       System.out.print("MINES:  ");
-      mines = scan.nextInt();
+      try {
+        mines = scan.nextInt();
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input: value is not an integer. Please restart and try again.\n");
+        System.exit(0);
+      }
     }
     System.out.println();
     
@@ -64,8 +94,13 @@ public class Launcher {
       input = thisLine.nextLine();
       input = input.replaceAll("[^-?0-9]+", " ");
       numbers = Arrays.stream(input.split(" ")).mapToInt(Integer::parseInt).toArray();
-      point.setX(numbers[0] - 1);
-      point.setY(numbers[1] - 1);
+      try {
+        point.setX(numbers[0] - 1);
+        point.setY(numbers[1] - 1);
+      } catch (ArrayIndexOutOfBoundsException e) {
+        System.out.println("Invalid input. Please restart and try again.");
+        System.exit(0);
+      }
       
       // Checks if point is within gameboard
       while((point.getX() >= height) || (point.getX() < 0) || (point.getY() >= width) || (point.getY() < 0)) {
